@@ -1,8 +1,8 @@
 {
   "name": "appp",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Authentication system",
+  "main": "server.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
@@ -14,10 +14,10 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=production node server",
+    "dev": "cross-env NODE_ENV=development nodemon server"
   },
-  "author": "",
+  "author": "amanuel",
   "license": "ISC"
 }

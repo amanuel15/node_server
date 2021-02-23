@@ -18,6 +18,10 @@ mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser:true,useUnifiedTopology
     console.log(err);
 })
 
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+}
+
 //Middleware
 app.use(express.json());
 
@@ -31,5 +35,6 @@ app.use('/api/user',authRouter);
 
 app.use('/api/posts',postRoute);
 
+const PORT = process.env.PORT || 3000
 
-app.listen(3000,()=>console.log('Server Up and running'));
+app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`));

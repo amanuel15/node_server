@@ -39,9 +39,10 @@ const get_my_posts = (req,res)=>{
 
 const create_post = (req,res)=>{
     const post= new Post.Post({
-        imageUrl:req.body.imageUrl,
         userId:mongoose.Types.ObjectId(req.header('id')),
-        caption:req.body.caption
+        title: req.body.title,
+        userEmail: req.body.userEmail,
+        body: req.body.body,
     });
     post.save().then((result)=>{
         return res.json({'Success':'Complete'});

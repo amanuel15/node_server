@@ -52,9 +52,29 @@ const create_post = (req,res)=>{
     });
 }
 
+const update_post = (req,res)=>{
+    const post = new Post.Post.findOneAndUpdate(
+        {
+            _id: new ObjectId(req.params.blogId),
+        },
+        {
+            $set: {
+                title: req.body.body,
+                body: req.body.body,
+            }
+        },
+    );
+    post.save().then((result)=>{
+        return res.json({'Success':'Complete'});
+    }).catch((err)=>{
+        console.log(err);
+        return res.status(400).send('Failed to Create Post');
+    });
+}
+
 const delete_post = (req,res)=>{
-    const postId = req.body.postId;
-    Post.Post.findByIdAndDelete(postId).then((result)=>{
+    const blogId = req.body.blogId;
+    Post.Post.findByIdAndDelete(blogId).then((result)=>{
         return res.json({'Success':'Complete'});
     }).catch((err)=>{
         return res.status(400).send('Failed to Delete Post');
@@ -74,9 +94,9 @@ const hasLike = (likes, id) =>{
 }
 
 const like_unlike_post = (req,res)=>{
-    const postId = req.body.postId;
+    const blogId = req.body.blogId;
     const userId = req.body.userId;
-    Post.Post.findById(postId).then((result)=>{
+    Post.Post.findById(blogId).then((result)=>{
         if(hasLike(result.likes,userId)){
             result.updateOne({$pull:{"likes":userId}}).then((result)=>{
                 return res.status(200).send("Unliked Post");
@@ -97,10 +117,10 @@ const like_unlike_post = (req,res)=>{
 
 const create_update_comment = (req,res)=>{
     const userId = req.body.userId;
-    const postId = req.body.postId;
+    const blogId = req.body.blogId;
     const comment = req.body.comment;
     const userComment = Post.Comment({_id:mongoose.Types.ObjectId(userId),comment:comment});
-    Post.Post.findById(postId).then((result)=>{
+    Post.Post.findById(blogId).then((result)=>{
         var hasComment = false;
         for (let index = 0; index < result.comments.length; index++) {
             const element = result.comments[index];
@@ -148,5 +168,6 @@ module.exports = {
     like_unlike_post,
     create_update_comment,
     get_feed,
-    get_my_posts
+    get_my_posts,
+    update_post
 };

@@ -5,6 +5,10 @@ const commentSchema = new mongoose.Schema({
         type:mongoose.Types.ObjectId,
         required:true
     },
+    userEmail: {
+        type: String,
+        required: true,
+    },
     comment:{
         type:String,
         required:true
@@ -14,19 +18,25 @@ const commentSchema = new mongoose.Schema({
 
 
 const postSchema = new mongoose.Schema({
-    imageUrl:{
-        type:String,
-        required:true,
-    },
+    // imageUrl:{
+    //     type:String,
+    //     required:true,
+    // },
     userId:{
         type:mongoose.Types.ObjectId,
         required:true
     },
-    caption:{
+    userEmail: {
+        type: String,
+        required: true,
+    },
+    title:{
         type:String,
         required:true,
-        min: 20,
-        max:256
+    },
+    body:{
+        type:String,
+        required:true,
     },
     likes:{
         type:[mongoose.Types.ObjectId]

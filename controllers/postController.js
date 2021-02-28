@@ -5,13 +5,13 @@ const Post = require('../models/Post');
 const get_feed = (req,res)=>{
     const lastId = req.body.lastId;
     if(lastId == null){
-        Post.Post.find().limit(5).then((result)=>{
+        Post.Post.find().limit(10).then((result)=>{
             return res.status(200).json({posts:result})
         }).catch((err)=>{
             return res.status(400).send('Failed to Get Posts');
         });
     }else{
-        Post.Post.find({'_id': {'$gt': lastId}}).limit(5).then((result)=>{
+        Post.Post.find({'_id': {'$gt': lastId}}).limit(10).then((result)=>{
             return res.status(200).json({posts:result})
         }).catch((err)=>{
             return res.status(400).send('Failed to Get Posts');
@@ -22,13 +22,13 @@ const get_feed = (req,res)=>{
 const get_my_posts = (req,res)=>{
     const lastId = req.body.lastId;
     if(lastId==null){
-        Post.Post.find({'userId':req.header('id')}).limit(5).then((result)=>{
+        Post.Post.find({'userId':req.header('id')}).limit(10).then((result)=>{
             return res.status(200).json({posts:result})
         }).catch((err)=>{
             return res.status(400).send('Failed to Get Posts');
         });
     }else{
-        Post.Post.find({'userId':req.header('id'),'_id': {'$gt': lastId} }).limit(5).then((result)=>{
+        Post.Post.find({'userId':req.header('id'),'_id': {'$gt': lastId} }).limit(10).then((result)=>{
             return res.status(200).json({posts:result})
         }).catch((err)=>{
             return res.status(400).send('Failed to Get Posts');

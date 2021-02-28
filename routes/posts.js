@@ -4,7 +4,7 @@ const postController = require('../controllers/postController')
 
 router.post('/create_post',verify,postController.create_post);
 
-router.post('/delete_post',verify,postController.delete_post);
+router.delete('/delete_post',verify,postController.delete_post);
 
 router.post('/like_unlike_post',verify,postController.like_unlike_post);
 

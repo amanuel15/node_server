@@ -52,24 +52,38 @@ const create_post = (req,res)=>{
     });
 }
 
-const update_post = (req,res)=>{
-    const post = new Post.Post.findOneAndUpdate(
+const update_post = (req, res) => {
+    console.log(req.body)
+    // Post.Post.findById(
+    //     { _id: req.params.blogId },
+    //     (err, kitten) => {
+    //         if (err) return res.status(200).send(err)
+    //         return res.status(200).send(kitten)
+    //     }
+    // );
+    Post.Post.findByIdAndUpdate(
         {
-            _id: new ObjectId(req.params.blogId),
+            _id: req.params.blogId,
         },
         {
             $set: {
-                title: req.body.body,
+                title: req.body.title,
                 body: req.body.body,
             }
         },
+        {new: true},
+        function (err, post) {
+            if (err) return res.status(404).send(err);
+            return res.status(200).send(post);
+        }
     );
-    post.save().then((result)=>{
-        return res.json({'Success':'Complete'});
-    }).catch((err)=>{
-        console.log(err);
-        return res.status(400).send('Failed to Create Post');
-    });
+    // return res.json({'Success':'Complete'});
+    // post.save().then((result)=>{
+    //     return res.json({'Success':'Complete'});
+    // }).catch((err)=>{
+    //     console.log(err);
+    //     return res.status(400).send('Failed to Create Post');
+    // });
 }
 
 const delete_post = (req,res)=>{

@@ -63,7 +63,7 @@ const update_post = (req, res) => {
     // );
     Post.Post.findByIdAndUpdate(
         {
-            _id: req.params.blogId,
+            _id: req.body.blogId,
         },
         {
             $set: {

@@ -14,6 +14,6 @@ router.get('/get_feed',verify,postController.get_feed);
 
 router.get('/get_my_posts', verify, postController.get_my_posts);
 
-router.put('/update_post/:blogId',verify,postController.update_post);
+router.put('/update_post',verify,postController.update_post);
 
 module.exports = router;

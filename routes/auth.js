@@ -51,6 +51,24 @@ router.post('/login',async(req,res)=>{
     res.header('auth-token',token).json({id:user._id,token:token});
 });
 
+router.put('/change_password', async (req, res) => {
+    console.log('\nreq body: '+ req.body.password)
+    var hashPassword = bcrypt.hashSync(req.body.password, 10);
+    User.findByIdAndUpdate(
+        { _id: req.header('id')},
+        {
+            $set: {
+                password: hashPassword
+            }
+        },
+        {new: true},
+        function (err, user) {
+            if (err) return res.status(404).send(err);
+            return res.status(200).send(user);
+        }
+    );
+});
+
 //import routers
 
 

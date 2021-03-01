@@ -54,13 +54,6 @@ const create_post = (req,res)=>{
 
 const update_post = (req, res) => {
     console.log(req.body)
-    // Post.Post.findById(
-    //     { _id: req.params.blogId },
-    //     (err, kitten) => {
-    //         if (err) return res.status(200).send(err)
-    //         return res.status(200).send(kitten)
-    //     }
-    // );
     Post.Post.findByIdAndUpdate(
         {
             _id: req.body.blogId,
@@ -77,13 +70,6 @@ const update_post = (req, res) => {
             return res.status(200).send(post);
         }
     );
-    // return res.json({'Success':'Complete'});
-    // post.save().then((result)=>{
-    //     return res.json({'Success':'Complete'});
-    // }).catch((err)=>{
-    //     console.log(err);
-    //     return res.status(400).send('Failed to Create Post');
-    // });
 }
 
 const delete_post = (req,res)=>{

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Post = require('../models/Post');
 
 const get_feed = (req,res)=>{
-    const lastId = req.params.lastId;
+    const lastId = req.query.lastId;
+    console.log('params: ' + req.query);
     if(lastId == null){
         Post.Post.find().limit(10).then((result)=>{
             return res.status(200).json({posts:result})

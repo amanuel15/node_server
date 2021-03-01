@@ -21,7 +21,7 @@ const get_feed = (req,res)=>{
 }
 
 const get_my_posts = (req,res)=>{
-    const lastId = req.body.lastId;
+    const lastId = req.query.lastId;
     if(lastId==null){
         Post.Post.find({'userId':req.header('id')}).limit(10).then((result)=>{
             return res.status(200).json({posts:result})

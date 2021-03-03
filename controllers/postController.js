@@ -53,6 +53,65 @@ const create_post = (req,res)=>{
     });
 }
 
+const create_comment = (req,res)=>{
+    const userId = req.body.userId;
+    const blogId = req.body.blogId;
+    const comment = req.body.comment;
+    const userEmail = req.body.userEmail;
+    const userComment = Post.Comment({
+        _id: mongoose.Types.ObjectId(userId),
+        comment: comment,
+        userEmail: userEmail
+    });
+    Post.Post.findByIdAndUpdate(
+        { _id: userId },
+        { new: true },
+        function (err, post) {
+            if (err) return res.status(404).send(err);
+            return res.status(200).send(post);
+        }
+    );
+    // Post.Post.findById(blogId).then((result)=>{
+    //     var hasComment = false;
+    //     for (let index = 0; index < result.comments.length; index++) {
+    //         const element = result.comments[index];
+    //         if(element._id == userId){
+    //             hasComment = true;
+    //             result.updateOne({
+    //                 $pull:{"comments":element}
+    //             }).then((resul)=>{
+    //                 result.updateOne({
+    //                     $addToSet:{"comments":userComment}
+    //                 }).then((resu)=>{
+    //                     return res.status(200).send("Updated Comment");
+    //                 })
+    //             }).catch((err)=>{
+    //                 return res.status(400).send("Failed to Update Comment");
+    //             });
+    //         }
+    //     }
+        
+    //     if(hasComment==false){
+    //         result.updateOne({
+    //             $addToSet:{"comments":userComment}
+
+    //         }).then((result)=>{
+    //             return res.status(200).send("Created Comment");
+                
+    //         }).catch((err)=>{ 
+    //             return res.status(400).send("Failed to Create Comment");
+    //         });
+    //     }else{
+    //         return;
+    //     }
+        
+
+    // }).catch((err)=>{
+    //     return res.status(400).send("Failed to Find post");
+    // });
+
+}
+
 const update_post = (req, res) => {
     console.log(req.body)
     Post.Post.findByIdAndUpdate(
@@ -116,58 +175,12 @@ const like_unlike_post = (req,res)=>{
     });
 }
 
-const create_update_comment = (req,res)=>{
-    const userId = req.body.userId;
-    const blogId = req.body.blogId;
-    const comment = req.body.comment;
-    const userComment = Post.Comment({_id:mongoose.Types.ObjectId(userId),comment:comment});
-    Post.Post.findById(blogId).then((result)=>{
-        var hasComment = false;
-        for (let index = 0; index < result.comments.length; index++) {
-            const element = result.comments[index];
-            if(element._id == userId){
-                hasComment = true;
-                result.updateOne({
-                    $pull:{"comments":element}
-                }).then((resul)=>{
-                    result.updateOne({
-                        $addToSet:{"comments":userComment}
-                    }).then((resu)=>{
-                        return res.status(200).send("Updated Comment");
-                    })
-                }).catch((err)=>{
-                    return res.status(400).send("Failed to Update Comment");
-                });
-            }
-        }
-        
-        if(hasComment==false){
-            result.updateOne({
-                $addToSet:{"comments":userComment}
-
-            }).then((result)=>{
-                return res.status(200).send("Created Comment");
-                
-            }).catch((err)=>{ 
-                return res.status(400).send("Failed to Create Comment");
-            });
-        }else{
-            return;
-        }
-        
-
-    }).catch((err)=>{
-        return res.status(400).send("Failed to Find post");
-    });
-
-}
-
 
 module.exports = {
     create_post,
     delete_post,
     like_unlike_post,
-    create_update_comment,
+    create_comment,
     get_feed,
     get_my_posts,
     update_post

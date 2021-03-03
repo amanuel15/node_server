@@ -69,6 +69,24 @@ router.put('/change_password', async (req, res) => {
     );
 });
 
+router.delete('/delete_user', async (req, res) => {
+    const userId = req.header('id');
+    User.findByIdAndDelete(userId).then((result) => {
+        User.deleteMany(
+            {
+                userId: userId,
+            },
+            function (err, success) {
+                if (err) return res.status(404).send(err);
+                return res.status(200).send(success);
+            }
+        )
+        return res.status(200).send(result);
+    }).catch((err)=>{
+        return res.status(400).send(err);
+    });
+});
+
 //import routers
 
 

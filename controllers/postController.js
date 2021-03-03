@@ -63,14 +63,28 @@ const create_comment = (req,res)=>{
         comment: comment,
         userEmail: userEmail
     });
-    Post.Post.findByIdAndUpdate(
-        { _id: userId },
-        { new: true },
-        function (err, post) {
-            if (err) return res.status(404).send(err);
-            return res.status(200).send(post);
-        }
-    );
+    Post.Post.findById(blogId).then((result) => {
+        result.updateOne({
+            $addToSet:{"comments":userComment}
+        }).then((resu)=>{
+            return res.status(200).send(resu);
+        }).catch((error)=>{
+            return res.status(400).send(error);
+        });
+    }).catch((err)=>{
+        return res.status(400).send(err);
+    });
+    // Post.Post.findByIdAndUpdate(
+    //     { _id: userId },
+    //     {
+    //         $addToSet:{"comments":userComment}
+    //     },
+    //     { new: true },
+    //     function (err, post) {
+    //         if (err) return res.status(404).send(err);
+    //         return res.status(200).send(post);
+    //     }
+    // );
     // Post.Post.findById(blogId).then((result)=>{
     //     var hasComment = false;
     //     for (let index = 0; index < result.comments.length; index++) {
